@@ -171,6 +171,11 @@ public class CargaDatos extends javax.swing.JFrame {
 
         btnLimpiar.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -230,6 +235,20 @@ public class CargaDatos extends javax.swing.JFrame {
     private void txtTelDuenioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelDuenioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTelDuenioActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        
+        txtNombre.setText("");
+        txtRaza.setText("");
+        txtColor.setText("");
+        txtObservaciones.setText("");
+        txtNombreDuenio.setText("");
+        txtTelDuenio.setText("");
+        
+        cmbAlergico.setSelectedIndex(0);
+        cmbAtEsp.setSelectedIndex(0);
+        
+    }//GEN-LAST:event_btnLimpiarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
