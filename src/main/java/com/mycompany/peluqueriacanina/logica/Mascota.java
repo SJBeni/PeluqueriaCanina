@@ -5,10 +5,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
+import java.io.Serializable;
 
 
 @Entity
-public class Mascota {
+public class Mascota implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
