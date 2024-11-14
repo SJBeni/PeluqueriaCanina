@@ -4,16 +4,21 @@
  */
 package com.mycompany.peluqueriacanina.igu;
 
+import com.mycompany.peluqueriacanina.logica.Controladora;
+import com.mycompany.peluqueriacanina.logica.Mascota;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Usuario
  */
 public class VerDatos extends javax.swing.JFrame {
 
-    /**
-     * Creates new form VerDatos
-     */
+    Controladora control = null; 
+    
     public VerDatos() {
+        control = new Controladora();
         initComponents();
     }
 
@@ -30,19 +35,24 @@ public class VerDatos extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaMascotas = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         btnEliminar = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 48)); // NOI18N
         jLabel1.setText("Visualizacion de Datos");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaMascotas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
                 {},
@@ -53,7 +63,7 @@ public class VerDatos extends javax.swing.JFrame {
 
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tablaMascotas);
 
         jLabel2.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jLabel2.setText("Datos de Mascotas");
@@ -146,6 +156,11 @@ public class VerDatos extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEliminarActionPerformed
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        
+        cargarTabla();
+    }//GEN-LAST:event_formWindowOpened
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEditar;
@@ -155,6 +170,37 @@ public class VerDatos extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tablaMascotas;
     // End of variables declaration//GEN-END:variables
+
+    private void cargarTabla() {
+        //Definir el modelo que queremos que tenga la tabla
+        DefaultTableModel modeloTabla = new DefaultTableModel(){
+            
+            //filas y columnas no seran editables
+            @Override
+            public boolean isCellEditable (int row, int column){
+                return false;
+            }
+        };
+        
+        //establecemos los nombres de las columas
+        String titulos[] = {"Num", "Nombre", "Color", "Raza", "Alergico", "At. Esp.", "Dueño", "Tel"};
+        modeloTabla.setColumnIdentifiers(titulos);
+        
+        //Carga de los datos desde BD
+        List<Mascota> listaMascotas = control.traerMascotas();
+        
+        //recorrer la lista y mostrar cada uno de los elementos en la tabla
+        if(listaMascotas != null){
+            for(Mascota mascota : listaMascotas){
+                Object[] objeto = {mascota.getNum_cliente(), mascota.getNombre(), mascota.getColor(), mascota.getRaza(),
+                mascota.getAlergico(), mascota.getAtencion_especial(), mascota.getUnDuenio().getNombre(), mascota.getUnDuenio().getTelDuenio()};
+                
+                modeloTabla.addRow(objeto);
+            }
+        }
+        
+        tablaMascotas.setModel(modeloTabla);
+    }
 }
