@@ -7,6 +7,8 @@ package com.mycompany.peluqueriacanina.igu;
 import com.mycompany.peluqueriacanina.logica.Controladora;
 import com.mycompany.peluqueriacanina.logica.Mascota;
 import java.util.List;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -153,9 +155,42 @@ public class VerDatos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // TODO add your handling code here:
+        
+        //Control tabla no esta vacia
+        if(tablaMascotas.getRowCount() > 0){
+            //Control de fila seleccionada (-1 para cuando no hay seleccion)
+            if (tablaMascotas.getSelectedRow()!= -1){
+                //Obtengo el ID de la mascota a eliminar
+                int num_cliente = Integer.parseInt(String.valueOf(tablaMascotas.getValueAt(tablaMascotas.getSelectedRow(), 0)));
+                
+                //Llamada al metodo borrar
+                control.borrarMascota(num_cliente);
+                
+                //Aviso al usuario que se borro correctamente
+                mostrarMensaje("Mascota eliminada de forma correcta", "Info", "Borrado de Mascota");
+                cargarTabla();
+                
+            }else{
+                mostrarMensaje("No se selecciono ninguna mascota", "Error", "Error al Eliminar");
+            }
+        }else{
+            mostrarMensaje("No hay elementos para eliminar en la tabla", "Error", "Error al eliminar");
+        }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
+    public void mostrarMensaje(String mensaje, String tipo, String titulo){
+        
+        JOptionPane optionPane = new JOptionPane(mensaje);
+        if(tipo.equals("Info")){
+            optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE); 
+        } else if(tipo.equals("Error")){
+            optionPane.setMessageType(JOptionPane.ERROR_MESSAGE);   
+        }
+        JDialog dialog = optionPane.createDialog(titulo);
+        dialog.setAlwaysOnTop(true);
+        dialog.setVisible(true);
+    }
+    
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         
         cargarTabla();

@@ -35,5 +35,10 @@ public class Controladora {
         
         return controlPersis.traerMascotas();
     }
+
+    public void borrarMascota(int num_cliente) {
+        
+        controlPersis.borrarMascota(num_cliente);
+    }
     
 }
